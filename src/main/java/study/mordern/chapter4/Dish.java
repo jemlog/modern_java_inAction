@@ -1,4 +1,6 @@
-package study.mordern;
+package study.mordern.chapter4;
+
+import study.mordern.Type;
 
 public class Dish {
 
