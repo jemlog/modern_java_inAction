@@ -29,6 +29,13 @@ public class example {
                 new Person("personD", 30)
         );
 
+        List<String> threeHighCaloricDishNames = menu.stream().filter(dish -> dish.getCalories() > 300)
+                .map(Dish::getName) // 스트림 반환
+                .limit(3)  // 스트림 반환 -> 체이닝 가능 -> 중간연산
+                .collect(Collectors.toList());
+        System.out.println(threeHighCaloricDishNames);
+
+
         List<String> animals = Arrays.asList("cat", "dog");
 
         List<String> results = animals.stream().map(animal -> animal.split(""))
