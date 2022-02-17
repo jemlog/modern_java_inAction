@@ -22,6 +22,23 @@ public class example {
                 new Dish("salmon", false, 450, Type.FISH)
         );
 
+        List<Person> people = Arrays.asList(
+                new Person("personA", 24),
+                new Person("personB", 26),
+                new Person("personC", 28),
+                new Person("personD", 30)
+        );
+
+        List<String> animals = Arrays.asList("cat", "dog");
+
+        List<String> results = animals.stream().map(animal -> animal.split(""))
+                .flatMap(Arrays::stream)
+                .collect(Collectors.toList());
+
+        System.out.println("results = " + results);
+
+
+
         /*
         filter 테스트
         칼로리가 400보다 큰 값 필터링
