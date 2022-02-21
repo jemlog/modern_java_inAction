@@ -26,6 +26,9 @@ public class running {
                 new Transaction(alan, 2012, 950)
         );
 
+
+
+
         List<Transaction> a1 = transactions.stream()
                 .filter(transaction -> transaction.getYear() == 2011)
                 .sorted(Comparator.comparing(Transaction::getValue))
@@ -87,7 +90,47 @@ public class running {
                 new Dish("salmon", false, 450, Type.FISH)
         );
 
+        // filter -> 불리언을 반환하는 함수 predicate가 사용된다.
+        List<Dish> collect = menu.stream().filter(Dish::isVegetarian).collect(Collectors.toList());
+        System.out.println("collect = " + collect);
 
+        // distinct -> 중복되는 요소를 제거한다.
+        List<Integer> numbers = Arrays.asList(1,2,1,3,3,2,4);
+    //    List<Integer> evenNumber = numbers.stream().filter(n -> n % 2 == 0).collect(Collectors.toList());
+            List<Integer> evenNumber = numbers.stream().filter(n -> n % 2 == 0).distinct().collect(Collectors.toList());
+        System.out.println("evenNumber="+evenNumber);
+
+        List<Dish> menu2 = Arrays.asList(
+                new Dish("season", true, 120, Type.OTHER),
+                new Dish("prawns", false, 300, Type.FISH),
+                new Dish("salmon", false, 450, Type.FISH),
+                new Dish("pizza", true, 550, Type.OTHER)
+        );
+
+        /*
+        takeWhile -> 내부 predicate의 조건을 만족할때까지만 요소를 포함하고, 거짓이 되면 연산을 멈춘다.
+         */
+        List<Dish> takeWhileResult = menu2.stream().takeWhile(dish -> dish.getCalories() < 400).collect(Collectors.toList());
+        System.out.println("takeWhileResult = "+takeWhileResult);
+
+        /*
+        dropWhile -> 내부 predicate의 조건을 만족할때는 다 버리고, 처음 거짓이 되는 시점부터 연산을 한다.
+        둘다 리스트가 정렬되어있다는 가정하에 사용할 수 있다.
+         */
+        List<Dish> dropWhileResult = menu2.stream().dropWhile(dish -> dish.getCalories() < 400).collect(Collectors.toList());
+        System.out.println("dropWhileResult = " + dropWhileResult);
+
+        List<Dish> dropWhileAndSkipResult = menu2.stream().dropWhile(dish -> dish.getCalories() < 400).skip(1).collect(Collectors.toList());
+        System.out.println("dropWhileAndSkipResult = " + dropWhileAndSkipResult);
+
+        // 검색과 매칭
+        //anyMatch 하나라도 맞으면 true
+        //allMatch 전부 맞아야 true
+        //noneMatch 전부 틀려야 true
+        // 위의 세가지는 모두 쇼트서킷 가능!
+
+        Optional<Dish> findAnyResult = menu.stream().filter(Dish::isVegetarian).findAny();
+        System.out.println("findAnyResult="+findAnyResult.get());
         /*
         mapToInt라는 기본형 특화 스트림을 사용해야 reduce없이 sum 사용 가능
         다시 stream으로 복원하기 위해서는 boxed() 사용하면 된다.
